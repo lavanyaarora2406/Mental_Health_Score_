@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MHP_ — Mental Health Prediction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo">MHP_</a>
+    <nav class="nav-links">
+      <a href="#predict">Predict</a>
+      <a href="#about">About</a>
+      <a href="#model">Model</a>
+    </nav>
+    <div class="api-status" id="apiStatus">
+      <span class="dot" id="apiDot"></span>
+      <span id="apiStatusText">CHECKING API</span>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Machine learning / prediction system</p>
+      <h1 class="headline">Understand<br>the signal.</h1>
+      <p class="hero-desc">
+        Enter a student's digital and lifestyle profile and generate a
+        mental health score from a trained regression model, in seconds.
+      </p>
+      <div class="hero-meta">
+        <div class="meta-block">
+          <span class="meta-label">Model status</span>
+          <span class="meta-value">Ready</span>
+        </div>
+        <div class="meta-block">
+          <span class="meta-label">Local API</span>
+          <span class="meta-value">:2200</span>
+        </div>
+      </div>
+      <a href="#predict" class="btn-ghost">Start a prediction →</a>
+    </div>
+
+    <div class="hero-visual" id="heroVisual">
+      <div class="output-card" id="outputCard">
+        <span class="output-label">Model output</span>
+        <span class="output-score" id="heroScore">—.—</span>
+        <span class="output-caption">Predicted score</span>
+      </div>
+      <p class="visual-note">Awaiting input</p>
+    </div>
+  </section>
+
+  <!-- PREDICTION FORM -->
+  <section class="predict-section" id="predict">
+    <div class="section-head">
+      <p class="eyebrow">Input / student profile</p>
+      <h2 class="section-title">Student data</h2>
+    </div>
+
+    <form id="predictForm" class="form" novalidate>
+
+      <fieldset class="form-group">
+        <legend>Personal</legend>
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" min="10" max="100" step="1" placeholder="21" required>
+            <span class="field-hint">10–100</span>
+          </div>
+
+          <div class="field">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+              <option value="" disabled selected>Select...</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="country">Country</label>
+            <input type="text" id="country" name="country" placeholder="e.g. India" required>
+          </div>
+
+          <div class="field">
+            <label for="academic_level">Academic level</label>
+            <select id="academic_level" name="academic_level" required>
+              <option value="" disabled selected>Select...</option>
+              <option value="High School">High school</option>
+              <option value="Undergraduate">Undergraduate</option>
+              <option value="Graduate">Graduate</option>
+            </select>
+          </div>
+
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <legend>Digital behavior</legend>
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="most_used_platform">Most used platform</label>
+            <select id="most_used_platform" name="most_used_platform" required>
+              <option value="" disabled selected>Select...</option>
+              <option>Facebook</option>
+              <option>LinkedIn</option>
+              <option>Instagram</option>
+              <option>Snapchat</option>
+              <option>Twitter</option>
+              <option>YouTube</option>
+              <option>TikTok</option>
+              <option>LINE</option>
+              <option>KakaoTalk</option>
+              <option>VKontakte</option>
+              <option>WhatsApp</option>
+              <option>WeChat</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="purpose_of_use">Purpose of use</label>
+            <select id="purpose_of_use" name="purpose_of_use" required>
+              <option value="" disabled selected>Select...</option>
+              <option value="Networking">Networking</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="News">News</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="avg_daily_usage_hours">Avg. daily usage (hrs)</label>
+            <input type="number" id="avg_daily_usage_hours" name="avg_daily_usage_hours" min="0" max="24" step="0.1" placeholder="4.5" required>
+            <span class="field-hint">0–24</span>
+          </div>
+
+          <div class="field">
+            <label for="daily_unlocks">Daily phone unlocks</label>
+            <input type="number" id="daily_unlocks" name="daily_unlocks" min="0" step="1" placeholder="60" required>
+            <span class="field-hint">≥ 0</span>
+          </div>
+
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <legend>Lifestyle</legend>
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="study_hours">Study hours / day</label>
+            <input type="number" id="study_hours" name="study_hours" min="0" max="24" step="0.1" placeholder="3" required>
+            <span class="field-hint">0–24</span>
+          </div>
+
+          <div class="field">
+            <label for="physical_activity_hours">Physical activity (hrs)</label>
+            <input type="number" id="physical_activity_hours" name="physical_activity_hours" min="0" max="24" step="0.1" placeholder="1" required>
+            <span class="field-hint">0–24</span>
+          </div>
+
+          <div class="field">
+            <label for="sleep_hours_per_night">Sleep / night (hrs)</label>
+            <input type="number" id="sleep_hours_per_night" name="sleep_hours_per_night" min="0" max="24" step="0.1" placeholder="7" required>
+            <span class="field-hint">0–24</span>
+          </div>
+
+          <div class="field">
+            <label for="stress_level">Stress level</label>
+            <select id="stress_level" name="stress_level" required>
+              <option value="" disabled selected>Select...</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+              <option value="Very High">Very high</option>
+            </select>
+          </div>
+
+        </div>
+      </fieldset>
+
+      <div class="form-footer">
+        <p class="disclaimer-inline">This is a machine-learning estimate, not a clinical diagnosis.</p>
+        <button type="submit" class="btn-predict" id="predictBtn">
+          <span id="predictBtnText">Predict score →</span>
+        </button>
+      </div>
+
+      <div class="error-box" id="errorBox" hidden>
+        <p class="error-title">Prediction failed</p>
+        <p class="error-message" id="errorMessage"></p>
+        <ul class="error-list" id="errorList" hidden></ul>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- RESULT -->
+  <section class="result-section" id="resultSection" hidden>
+    <div class="result-card">
+      <p class="result-label">Prediction / model output</p>
+      <p class="result-score" id="resultScore">0.00</p>
+      <p class="result-caption">Mental health score</p>
+      <p class="result-message" id="resultMessage"></p>
+      <p class="result-footer">Generated by ML model — local API :2200</p>
+    </div>
+  </section>
+
+  <!-- ABOUT / MODEL -->
+  <section class="about" id="about">
+    <div class="about-block">
+      <p class="eyebrow">About</p>
+      <h2 class="section-title-sm">A single-purpose prediction tool</h2>
+      <p class="about-text">
+        This interface sends a student's profile to a locally running
+        FastAPI service, which passes it through a trained regression
+        model and returns a single numeric score. Nothing is stored,
+        and no request is sent anywhere beyond the local API.
+      </p>
+    </div>
+    <div class="about-block" id="model">
+      <p class="eyebrow">Model</p>
+      <h2 class="section-title-sm">What the score means</h2>
+      <p class="about-text">
+        The score reflects patterns learned from prior student data —
+        it is a statistical estimate, not a medical assessment. Use it
+        as a starting point for reflection, not a conclusion.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <p class="footer-title">Mental health prediction</p>
+      <p class="footer-sub">Machine learning project</p>
+    </div>
+    <div class="footer-api">
+      <span class="meta-label">Local API</span>
+      <span class="meta-value">127.0.0.1:2200</span>
+    </div>
+  </div>
+  <p class="footer-disclaimer">This prediction is generated by a machine learning model and is not a clinical diagnosis.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
