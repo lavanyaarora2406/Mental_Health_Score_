@@ -1,5 +1,5 @@
 (() => {
-  const API_BASE = "https://mental-health-score-zlu7.onrender.com";
+  const API_BASE = "http://127.0.0.1:2200";
 
   const form = document.getElementById("predictForm");
   const predictBtn = document.getElementById("predictBtn");
